@@ -86,10 +86,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="https://ik.imagekit.io/dypkhqxip/faviconn" />
         <link rel="shortcut icon" href="https://ik.imagekit.io/dypkhqxip/faviconn" />
 
-        {/* Material Symbols Outlined — specific icon set */}
+        {/* Material Symbols Outlined — full icon set */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=recent_patient"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
 
         {/* Theme colour for browser chrome */}
