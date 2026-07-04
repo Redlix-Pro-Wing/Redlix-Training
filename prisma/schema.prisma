@@ -25,6 +25,8 @@ model User {
   portfolioLink   String?  @default("")
   linkedinLink    String?  @default("")
   about           String?  @default("")
+  otpCode         String?
+  otpExpiry       DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
