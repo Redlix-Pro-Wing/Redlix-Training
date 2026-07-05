@@ -158,7 +158,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
 
     try {
       const textToSend = replyingToMessage
-        ? `💬 Replying to ${replyingToMessage.fullName}:\n> ${replyingToMessage.content.split("\n").join("\n> ")}\n\n${newMessageText.trim()}`
+        ? `Replying to ${replyingToMessage.fullName}:\n> ${replyingToMessage.content.split("\n").join("\n> ")}\n\n${newMessageText.trim()}`
         : newMessageText.trim();
 
       const res = await fetch("/api/messages", {
@@ -1089,7 +1089,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
 
                 {/* Quoted Message */}
                 <div className="bg-slate-50 border-l-4 border-slate-300 p-3 rounded-r-xl text-xs text-slate-600 break-words max-h-24 overflow-y-auto whitespace-pre-wrap italic">
-                  "{infoMessage.content.startsWith("💬 Replying to") ? infoMessage.content.split("\n\n").slice(1).join("\n\n") : infoMessage.content}"
+                  "{infoMessage.content.startsWith("Replying to") ? infoMessage.content.split("\n\n").slice(1).join("\n\n") : infoMessage.content}"
                 </div>
 
                 {/* Reader Users List */}
