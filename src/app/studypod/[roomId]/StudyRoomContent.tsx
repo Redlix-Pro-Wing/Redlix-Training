@@ -703,28 +703,25 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
           </div>
 
           {/* Content */}
-          <div className="max-w-md space-y-2.5">
-            <span className="text-[10px] bg-indigo-50 border border-indigo-100 text-indigo-750 font-extrabold px-3 py-1 rounded-full uppercase tracking-wider select-none">
-              Waiting Room
-            </span>
-            <h2 className="text-xl font-extrabold text-slate-850">
+          <div className="max-w-md space-y-2 select-none">
+            <h2 className="text-lg font-bold text-slate-800 tracking-tight leading-snug">
               Waiting for the host to let you in...
             </h2>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              You are currently in the waiting hall for study room <span className="font-bold text-slate-800">"{roomPod.name}"</span>. The host <span className="font-semibold text-indigo-650">{roomPod.creatorName}</span> has been notified to accept your request.
+            <p className="text-xs text-slate-500 leading-relaxed px-4">
+              You are currently in the waiting hall for study room <span className="font-semibold text-slate-700">"{roomPod.name}"</span>. The host <span className="font-semibold text-slate-750">{roomPod.creatorName}</span> has been notified to accept your request.
             </p>
           </div>
 
-          {/* Meta Card details */}
-          <div className="bg-white border border-slate-200/60 rounded-2xl px-6 py-4 text-xs text-slate-500 max-w-sm flex items-center justify-between w-full shadow-md">
-            <div className="text-left">
-              <span className="block text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">Your Profile</span>
-              <span className="font-bold text-slate-700">{user?.fullName}</span>
+          {/* Meta Card details pill */}
+          <div className="bg-white border border-slate-200 rounded-full px-8 py-3 text-xs text-slate-550 max-w-md flex items-center justify-between w-full shadow-3xs select-none">
+            <div className="text-left space-y-0.5">
+              <span className="block text-[8px] text-slate-400 font-semibold uppercase tracking-wider">Your Profile</span>
+              <span className="font-medium text-slate-750">{user?.fullName || user?.email}</span>
             </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span>
-            <div className="text-right">
-              <span className="block text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">Status</span>
-              <span className="font-bold text-indigo-600">Waiting for Host Approval</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0 mx-4 animate-pulse"></span>
+            <div className="text-right space-y-0.5">
+              <span className="block text-[8px] text-slate-400 font-semibold uppercase tracking-wider">Status</span>
+              <span className="font-medium text-indigo-650">Waiting for Host Approval</span>
             </div>
           </div>
 
