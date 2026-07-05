@@ -37,6 +37,7 @@ interface ChatMessage {
   email: string;
   role: string;
   recipientId: string | null;
+  reactions?: any;
   createdAt: string;
 }
 
@@ -161,6 +162,78 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
     } finally {
       setSending(false);
     }
+  };
+
+  // Handle message reaction (add, update, or toggle/delete)
+  const handleReactMessage = async (messageId: string, emoji: string) => {
+    try {
+      const msg = messages.find((m) => m.id === messageId);
+      let currentReactions = msg?.reactions || {};
+      if (typeof currentReactions === "string") {
+        try {
+          currentReactions = JSON.parse(currentReactions);
+        } catch {
+          currentReactions = {};
+        }
+      }
+      const existingReaction = currentReactions[user.id];
+      // If clicking same emoji, remove reaction. Else toggle/replace reaction.
+      const targetEmoji = existingReaction?.emoji === emoji ? null : emoji;
+
+      // Optimistically update reactions on local state
+      setMessages((prev) =>
+        prev.map((m) => {
+          if (m.id === messageId) {
+            const updatedReactions = { ...currentReactions };
+            if (!targetEmoji) {
+              delete updatedReactions[user.id];
+            } else {
+              updatedReactions[user.id] = { emoji: targetEmoji, fullName: user.fullName };
+            }
+            return { ...m, reactions: updatedReactions };
+          }
+          return m;
+        })
+      );
+
+      // Save reaction to database
+      const res = await fetch(`/api/messages/${messageId}/react`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ emoji: targetEmoji }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to react to message");
+      }
+
+      const data = await res.json();
+      // Sync client state with database snapshot response
+      setMessages((prev) =>
+        prev.map((m) => (m.id === messageId ? data.message : m))
+      );
+    } catch (err) {
+      console.error("React message error:", err);
+    }
+  };
+
+  const getGroupedReactions = (reactionsObj: any) => {
+    const reactionCounts: { [emoji: string]: number } = {};
+    const userReacted: { [emoji: string]: string[] } = {};
+    let totalReactions = 0;
+
+    Object.entries(reactionsObj || {}).forEach(([uid, react]: [string, any]) => {
+      if (react && react.emoji) {
+        reactionCounts[react.emoji] = (reactionCounts[react.emoji] || 0) + 1;
+        if (!userReacted[react.emoji]) userReacted[react.emoji] = [];
+        userReacted[react.emoji].push(react.fullName);
+        totalReactions++;
+      }
+    });
+
+    return { reactionCounts, userReacted, totalReactions };
   };
 
   const getInitials = (name: string) => {
@@ -412,7 +485,28 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                     </div>
 
                     {/* Chat Bubble card */}
-                    <div className="space-y-1">
+                    <div className="space-y-1 group relative">
+                      
+                      {/* Emoji Reaction Hover Bar */}
+                      <div className={`absolute -top-7 ${isCurrentUser ? "left-0" : "right-0"} z-30 bg-slate-950 border border-slate-800 shadow-md rounded-full px-2.5 py-1.5 flex gap-2 items-center transition-all duration-150 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto`}>
+                        {["👍", "❤️", "😂", "😮", "😢", "🙏"].map((emoji) => {
+                          const currentReactions = msg.reactions || {};
+                          const userReact = currentReactions[user.id];
+                          const hasReacted = userReact?.emoji === emoji;
+                          return (
+                            <button
+                              key={emoji}
+                              onClick={() => handleReactMessage(msg.id, emoji)}
+                              className={`hover:scale-130 transition duration-100 text-sm cursor-pointer select-none ${
+                                hasReacted ? "bg-slate-800 p-0.5 rounded-full scale-110" : ""
+                              }`}
+                            >
+                              {emoji}
+                            </button>
+                          );
+                        })}
+                      </div>
+
                       {/* Sender details header */}
                       <div className={`flex items-center gap-1.5 text-[10px] ${
                         isCurrentUser ? "justify-end text-slate-500" : "text-slate-600"
@@ -428,13 +522,45 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                       </div>
 
                       {/* Content bubble with resource-style colorful backgrounds */}
-                      <div 
-                        style={{ backgroundColor: senderColor.bg, color: senderColor.text }}
-                        className={`rounded-2xl px-4 py-2.5 shadow-2xs text-sm break-words whitespace-pre-wrap leading-relaxed ${
-                          isCurrentUser ? "rounded-tr-none" : "rounded-tl-none"
-                        } font-medium`}
-                      >
-                        {msg.content}
+                      <div className="relative">
+                        <div 
+                          style={{ backgroundColor: senderColor.bg, color: senderColor.text }}
+                          className={`rounded-2xl px-4 py-2.5 shadow-2xs text-sm break-words whitespace-pre-wrap leading-relaxed ${
+                            isCurrentUser ? "rounded-tr-none" : "rounded-tl-none"
+                          } font-medium`}
+                        >
+                          {msg.content}
+                        </div>
+
+                        {/* Reactions Pill Display */}
+                        {(() => {
+                          const reactionsObj = msg.reactions || {};
+                          const { reactionCounts, userReacted, totalReactions } = getGroupedReactions(reactionsObj);
+
+                          if (totalReactions === 0) return null;
+
+                          return (
+                            <div 
+                              onClick={() => {
+                                const myReact = reactionsObj[user.id];
+                                if (myReact && myReact.emoji) {
+                                  handleReactMessage(msg.id, myReact.emoji);
+                                }
+                              }}
+                              className={`absolute -bottom-2 ${isCurrentUser ? "left-2.5" : "right-2.5"} z-20 bg-white border border-slate-200/90 shadow-2xs rounded-full px-1.5 py-0.5 flex gap-1 items-center select-none text-[9px] text-slate-650 font-bold hover:bg-slate-50 cursor-pointer transition`}
+                              title={Object.entries(userReacted)
+                                .map(([emoji, names]) => `${emoji} : ${names.join(", ")}`)
+                                .join("\n")}
+                            >
+                              <div className="flex -space-x-0.5">
+                                {Object.keys(reactionCounts).map((emoji) => (
+                                  <span key={emoji} className="text-xs leading-none">{emoji}</span>
+                                ))}
+                              </div>
+                              {totalReactions > 1 && <span className="leading-none text-slate-500">{totalReactions}</span>}
+                            </div>
+                          );
+                        })()}
                       </div>
 
                       {/* Timestamp */}

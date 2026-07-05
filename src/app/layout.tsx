@@ -40,19 +40,19 @@ export const metadata: Metadata = {
     siteName: "Redlix Training Academy",
     images: [
       {
-        url: "https://ik.imagekit.io/dypkhqxip/logotraining",
-        width: 400,
-        height: 100,
+        url: "https://ik.imagekit.io/dypkhqxip/urlimag",
+        width: 1200,
+        height: 630,
         alt: "Redlix Training Academy",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Redlix Training Academy",
     description:
       "Elevate your technical expertise with curated engineering resources and video lectures.",
-    images: ["https://ik.imagekit.io/dypkhqxip/logotraining"],
+    images: ["https://ik.imagekit.io/dypkhqxip/urlimag"],
   },
   icons: {
     icon: [
