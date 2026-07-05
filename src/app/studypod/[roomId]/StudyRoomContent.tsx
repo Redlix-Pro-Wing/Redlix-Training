@@ -754,17 +754,19 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
             className={`border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50/50 flex-col shrink-0 lg:max-h-full ${mobileActiveTab === "info" ? "flex flex-1 animate-fadeIn" : "hidden lg:flex"}`}
           >
           {/* Header metadata */}
-          <div className="p-5 border-b border-slate-200/80 bg-white">
-            <span className="block text-[8px] text-slate-400 font-extrabold uppercase tracking-wider mb-1.5 select-none">
-              Study Pod Workspace
-            </span>
-            <h2 className="text-base font-black text-indigo-650 tracking-tight leading-tight flex items-center gap-1.5 select-none">
-              <span className="w-2 h-2 rounded-full bg-[#CCFF00] shadow-[0_0_8px_rgba(204,255,0,0.65)] shrink-0 animate-pulse"></span>
+          <div className="p-5 border-b border-slate-200 bg-white space-y-1.5 select-none">
+            <div className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#CCFF00] shadow-[0_0_6px_#CCFF00] shrink-0 animate-pulse"></span>
+              <span className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">
+                Study Pod Workspace
+              </span>
+            </div>
+            <h2 className="text-base font-bold text-slate-800 tracking-tight leading-none truncate">
               {studyPod.name}
             </h2>
-            <p className="text-[10px] text-slate-500 mt-1.5 flex items-center gap-1 select-none">
-              <span>Host:</span>
-              <span className="font-bold text-slate-700">{studyPod.creatorName}</span>
+            <p className="text-[11px] text-slate-550 flex items-center gap-1">
+              <span className="text-slate-400">Host:</span>
+              <span className="font-medium text-slate-700">{studyPod.creatorName}</span>
             </p>
           </div>
 
