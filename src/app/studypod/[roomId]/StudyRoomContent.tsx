@@ -693,15 +693,13 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
       <DashboardLayout user={user}>
         <div className="w-full min-h-[80vh] flex flex-col items-center justify-center p-6 space-y-6 text-center animate-fadeIn">
           
-          {/* Animated Loader/Wait Icon */}
-          <div className="relative flex items-center justify-center">
-            <span className="absolute inline-flex h-20 w-20 rounded-full bg-indigo-400 opacity-20 animate-ping"></span>
-            <span className="absolute inline-flex h-28 w-28 rounded-full bg-indigo-400 opacity-10 animate-ping duration-1000"></span>
-            <div className="relative bg-white border border-slate-200/90 shadow-md h-16 w-16 rounded-2xl flex items-center justify-center text-indigo-650 shrink-0">
-              <span className="material-symbols-outlined text-[32px] animate-spin">
-                sync
-              </span>
-            </div>
+          {/* Animated Loader/Wait Lottie Animation */}
+          <div className="w-64 h-64 pointer-events-none overflow-hidden select-none">
+            <iframe
+              src="https://lottie.host/embed/029367a4-ed8a-4196-a11d-9b436b202595/DzlCazBv2F.lottie"
+              className="w-full h-full border-0 bg-transparent"
+              title="Waiting animation"
+            />
           </div>
 
           {/* Content */}
