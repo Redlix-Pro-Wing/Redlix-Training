@@ -754,10 +754,9 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
             className={`border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50/50 flex-col shrink-0 lg:max-h-full ${mobileActiveTab === "info" ? "flex flex-1 animate-fadeIn" : "hidden lg:flex"}`}
           >
           {/* Header metadata */}
-          <div className="p-5 border-b border-slate-200 bg-white space-y-1.5 select-none">
-            <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#CCFF00] shadow-[0_0_6px_#CCFF00] shrink-0 animate-pulse"></span>
-              <span className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">
+          <div className="p-5 border-b border-slate-200 bg-white space-y-2 select-none">
+            <div>
+              <span className="inline-block text-[8px] bg-indigo-50/70 text-indigo-750 font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-indigo-100/50">
                 Study Pod Workspace
               </span>
             </div>
