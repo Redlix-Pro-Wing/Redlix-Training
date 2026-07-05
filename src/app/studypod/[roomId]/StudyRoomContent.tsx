@@ -684,10 +684,10 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
 
           <button
             onClick={() => setShowParticipantsDrawer(!showParticipantsDrawer)}
-            style={{ backgroundColor: "#39FF14", boxShadow: "0 0 15px rgba(57, 255, 20, 0.45)" }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-950 hover:text-black font-extrabold transition hover:scale-102 active:scale-98 text-[10px] cursor-pointer border-t border-white/20"
+            style={{ backgroundColor: "#CCFF00", boxShadow: "0 0 15px rgba(204, 255, 0, 0.45)" }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-955 hover:text-black font-extrabold transition hover:scale-102 active:scale-98 text-[10px] cursor-pointer border-t border-white/20"
           >
-            <span className="material-symbols-outlined text-[15px] text-slate-950 select-none font-extrabold">group</span>
+            <span className="material-symbols-outlined text-[15px] text-slate-955 select-none font-extrabold">group</span>
             Participants
             {isHost && waitingUserCount > 0 && (
               <span className="h-4 min-w-4 bg-slate-950 text-white rounded-full flex items-center justify-center text-[8px] font-extrabold px-1">
