@@ -6,6 +6,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import AppLayout from "@/components/AppLayout";
 import {
   IconMessage,
+  IconMessages,
   IconChecklist,
   IconBulb,
   IconLock,
@@ -879,13 +880,13 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
 
         {/* PANEL 2: Center Workspace Chat stream */}
         <div className={`flex-1 flex-col h-full overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-200 ${mobileActiveTab === "chat" ? "flex" : "hidden lg:flex"}`}>
-          <div className="p-4 border-b border-slate-200 flex items-center gap-2 bg-white shrink-0">
-            <span className="p-2 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-650">
-              <IconMessage className="w-4 h-4" />
+          <div className="p-4 border-b border-slate-200 flex items-center gap-2.5 bg-white shrink-0">
+            <span className="p-2 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-650 shrink-0">
+              <IconMessages className="w-4 h-4" />
             </span>
             <div>
-              <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider leading-none">
-                Room Discussion
+              <h3 className="text-xs font-semibold text-slate-800 leading-none">
+                Room discussion
               </h3>
               <p className="text-[10px] text-slate-400 mt-1">
                 Collaborative public chat with all study partners.
@@ -944,10 +945,16 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
                 );
               })
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center p-8">
-                <span className="text-2xl">💬</span>
-                <h4 className="text-xs font-bold text-slate-700 mt-2">Workspace Chat Active</h4>
-                <p className="text-[11px] text-slate-500 max-w-xs mt-1">
+              <div className="flex flex-col items-center justify-center h-full text-center p-8 select-none">
+                <div className="w-48 h-48 mb-2 pointer-events-none overflow-hidden rounded-xl">
+                  <iframe
+                    src="https://lottie.host/embed/ea8bc4c7-442b-48c1-95b4-c7d02afd2cca/ebPEadNeIk.lottie"
+                    className="w-full h-full border-0"
+                    title="Empty state animation"
+                  />
+                </div>
+                <h4 className="text-xs font-semibold text-slate-800 mt-2">Workspace chat active</h4>
+                <p className="text-[11px] text-slate-500 max-w-xs mt-1 leading-normal">
                   Send a message below to start collaborating with members in the study pod.
                 </p>
               </div>
