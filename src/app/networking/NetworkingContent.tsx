@@ -480,7 +480,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                     const count = getUnreadCount(u.id);
                     if (count === 0) return null;
                     return (
-                      <span className={`ml-auto ${isSelected ? "bg-white text-indigo-650" : "bg-indigo-600 text-white"} text-[10px] font-bold h-5 px-1.5 rounded-full flex items-center justify-center min-w-5 shadow-xs shrink-0 animate-pulse`}>
+                      <span className={`ml-auto ${isSelected ? "bg-white text-indigo-650" : "bg-indigo-600 text-white"} text-[10px] font-bold h-5 px-1.5 rounded-full flex items-center justify-center min-w-5 shadow-xs shrink-0`}>
                         {count}
                       </span>
                     );

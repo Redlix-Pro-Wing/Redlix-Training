@@ -146,7 +146,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                 forum
               </span>
               {unreadCount > 0 && (
-                <span className="absolute -top-1.5 -right-2 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white shadow-xs animate-pulse">
+                <span className="absolute -top-1.5 -right-2 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white shadow-xs">
                   {unreadCount}
                 </span>
               )}
