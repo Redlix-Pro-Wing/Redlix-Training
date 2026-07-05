@@ -214,13 +214,13 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
       hash = email.charCodeAt(i) + ((hash << 5) - hash);
     }
     const softColors = [
-      "bg-blue-50/70 border-blue-150/40 text-blue-900 shadow-[0_2px_8px_rgba(219,234,254,0.35)]",
-      "bg-emerald-50/70 border-emerald-150/40 text-emerald-900 shadow-[0_2px_8px_rgba(209,250,229,0.35)]",
-      "bg-indigo-50/70 border-indigo-150/40 text-indigo-900 shadow-[0_2px_8px_rgba(224,231,255,0.35)]",
-      "bg-purple-50/70 border-purple-150/40 text-purple-900 shadow-[0_2px_8px_rgba(243,232,255,0.35)]",
-      "bg-sky-50/70 border-sky-150/40 text-sky-900 shadow-[0_2px_8px_rgba(224,242,254,0.35)]",
-      "bg-rose-50/70 border-rose-150/40 text-rose-900 shadow-[0_2px_8px_rgba(255,228,230,0.35)]",
-      "bg-amber-50/70 border-amber-150/40 text-amber-900 shadow-[0_2px_8px_rgba(254,243,199,0.35)]",
+      "bg-blue-100/85 text-blue-950 shadow-[0_2px_8px_rgba(219,234,254,0.4)]",
+      "bg-emerald-100/85 text-emerald-950 shadow-[0_2px_8px_rgba(209,250,229,0.4)]",
+      "bg-indigo-100/85 text-indigo-950 shadow-[0_2px_8px_rgba(224,231,255,0.4)]",
+      "bg-purple-100/85 text-purple-950 shadow-[0_2px_8px_rgba(243,232,255,0.4)]",
+      "bg-sky-100/85 text-sky-950 shadow-[0_2px_8px_rgba(224,242,254,0.4)]",
+      "bg-rose-100/85 text-rose-950 shadow-[0_2px_8px_rgba(255,228,230,0.4)]",
+      "bg-amber-100/85 text-amber-950 shadow-[0_2px_8px_rgba(254,243,199,0.4)]",
     ];
     return softColors[Math.abs(hash) % softColors.length];
   };
@@ -779,7 +779,7 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
                 {(() => {
                   const softColorClass = getParticipantSoftCardColor(user.email);
                   return (
-                    <div className={`flex items-center gap-3 p-2.5 rounded-xl border transition hover:scale-[1.01] duration-150 ${softColorClass}`}>
+                    <div className={`flex items-center gap-3 p-2.5 rounded-xl transition hover:scale-[1.01] duration-150 ${softColorClass}`}>
                       {user.profileImage ? (
                         <img
                           src={user.profileImage}
@@ -813,7 +813,7 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
                     const colorStyle = getParticipantColor(p.email);
                     const softColorClass = getParticipantSoftCardColor(p.email);
                     return (
-                      <div key={p.email} className={`flex items-center gap-3 p-2.5 rounded-xl border transition hover:scale-[1.01] duration-150 animate-fadeIn ${softColorClass}`}>
+                      <div key={p.email} className={`flex items-center gap-3 p-2.5 rounded-xl transition hover:scale-[1.01] duration-150 animate-fadeIn ${softColorClass}`}>
                         {p.profileImage ? (
                           <img
                             src={p.profileImage}
