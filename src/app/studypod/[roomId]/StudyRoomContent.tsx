@@ -988,8 +988,8 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
                 );
               })
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center p-8 select-none">
-                <div className="w-48 h-48 mb-2 pointer-events-none overflow-hidden rounded-xl">
+              <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 select-none pt-16 pb-12">
+                <div className="w-72 h-72 mb-4 pointer-events-none overflow-hidden rounded-2xl bg-white/50 border border-slate-100 shadow-3xs">
                   <iframe
                     src="https://lottie.host/embed/ea8bc4c7-442b-48c1-95b4-c7d02afd2cca/ebPEadNeIk.lottie"
                     className="w-full h-full border-0"
