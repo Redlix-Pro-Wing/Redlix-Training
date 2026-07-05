@@ -756,8 +756,8 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
           {/* Header metadata */}
           <div className="p-5 border-b border-slate-200 bg-white space-y-2 select-none">
             <div>
-              <span className="inline-block text-[8px] bg-indigo-50/70 text-indigo-750 font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-indigo-100/50">
-                Study Pod Workspace
+              <span className="inline-block text-[9px] bg-emerald-50 text-emerald-700 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-100/60 shadow-3xs">
+                Study pod workspace
               </span>
             </div>
             <h2 className="text-base font-bold text-slate-800 tracking-tight leading-none truncate">
