@@ -713,10 +713,23 @@ export default function StudyRoomContent({ user, studyPod, roomId }: StudyRoomCo
           </div>
 
           {/* Meta Card details pill */}
-          <div className="bg-white border border-slate-200 rounded-full px-8 py-3 text-xs text-slate-550 max-w-md flex items-center justify-between w-full shadow-3xs select-none">
-            <div className="text-left space-y-0.5">
-              <span className="block text-[8px] text-slate-400 font-semibold uppercase tracking-wider">Your Profile</span>
-              <span className="font-medium text-slate-750">{user?.fullName || user?.email}</span>
+          <div className="bg-white border border-slate-200 rounded-full pl-5 pr-8 py-2.5 text-xs text-slate-550 max-w-md flex items-center justify-between w-full shadow-3xs select-none">
+            <div className="flex items-center gap-2.5 text-left">
+              {user?.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt={user.fullName || "User"}
+                  className="w-7.5 h-7.5 rounded-full object-cover border border-slate-200 shadow-3xs shrink-0"
+                />
+              ) : (
+                <div className="w-7.5 h-7.5 rounded-full bg-indigo-50 text-indigo-700 flex items-center justify-center text-[10px] font-bold border border-indigo-100 shrink-0">
+                  {(user?.fullName || "U").substring(0, 1).toUpperCase()}
+                </div>
+              )}
+              <div className="space-y-0.5">
+                <span className="block text-[8px] text-slate-400 font-semibold uppercase tracking-wider leading-none">Your Profile</span>
+                <span className="font-medium text-slate-750 block leading-none">{user?.fullName || user?.email}</span>
+              </div>
             </div>
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0 mx-4 animate-pulse"></span>
             <div className="text-right space-y-0.5">
