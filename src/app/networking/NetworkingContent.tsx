@@ -819,7 +819,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                                 style={{ backgroundColor: senderColor.bg, color: senderColor.text }}
                                 className={`rounded-2xl px-4 py-2.5 shadow-2xs text-sm break-words leading-relaxed ${
                                   isCurrentUser ? "rounded-tr-none" : "rounded-tl-none"
-                                } font-medium space-y-2`}
+                                } font-medium space-y-2 max-w-full overflow-hidden`}
                               >
                                 {/* Quoted Reply Context */}
                                 <div 
@@ -828,14 +828,14 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                                     isCurrentUser 
                                       ? "border-white/40 bg-white/10 hover:bg-white/20" 
                                       : "border-slate-400/40 bg-slate-100/35 hover:bg-slate-200/40"
-                                  } rounded-r-lg p-2 text-xs cursor-pointer transition select-none block max-w-full`}
+                                  } rounded-r-lg p-2 text-xs cursor-pointer transition select-none block max-w-full overflow-hidden`}
                                   title="Click to see original message"
                                 >
                                   <div className="font-bold opacity-80 leading-none truncate">
                                     {parsedReply.replyingToName}
                                   </div>
-                                  <div className="opacity-70 truncate mt-1 max-w-full">
-                                    {parsedReply.quotedText}
+                                  <div className="opacity-70 truncate mt-1 w-full block">
+                                    {parsedReply.quotedText.replace(/\n/g, " ")}
                                   </div>
                                 </div>
                                 
@@ -985,7 +985,8 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                   <p className="text-slate-500 truncate mt-1.5 leading-snug">
                     {(() => {
                       const parsed = parseReplyMessage(replyingToMessage.content);
-                      return parsed ? parsed.actualContent : replyingToMessage.content;
+                      const rawContent = parsed ? parsed.actualContent : replyingToMessage.content;
+                      return rawContent.replace(/\n/g, " ");
                     })()}
                   </p>
                 </div>
