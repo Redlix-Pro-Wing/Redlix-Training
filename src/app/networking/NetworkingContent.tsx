@@ -688,7 +688,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                     </div>
 
                     {/* Chat Bubble card */}
-                    <div className="space-y-1 group relative">
+                    <div className="space-y-1 group relative min-w-0">
                       
                       {/* Emoji Reaction Hover Bar */}
                       <div className={`absolute -top-7 ${isCurrentUser ? "left-0" : "right-0"} z-35 bg-slate-950 border border-slate-800 shadow-md rounded-full px-2.5 py-1.5 flex gap-2 items-center transition-all duration-150 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto`}>
@@ -810,7 +810,7 @@ export default function NetworkingContent({ user, allUsers }: NetworkingContentP
                       </div>
 
                       {/* Content bubble with resource-style colorful backgrounds */}
-                      <div className="relative">
+                      <div className="relative min-w-0">
                         {(() => {
                           const parsedReply = parseReplyMessage(msg.content);
                           if (parsedReply) {
