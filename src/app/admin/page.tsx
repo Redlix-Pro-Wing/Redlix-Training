@@ -44,9 +44,15 @@ export default async function AdminPanelPage() {
       portfolioLink: true,
       linkedinLink: true,
       about: true,
+      isPremium: true,
       createdAt: true,
       updatedAt: true,
     },
+  });
+
+  // Retrieve all payment requests
+  const paymentRequests = await prisma.paymentRequest.findMany({
+    orderBy: { createdAt: "desc" },
   });
 
   // Convert Date objects to strings/JSON compatible dates for client component serialization
@@ -56,5 +62,17 @@ export default async function AdminPanelPage() {
     updatedAt: u.updatedAt.toISOString(),
   }));
 
-  return <LearnersContent adminUser={adminUser} allUsers={serializedUsers} />;
+  const serializedRequests = paymentRequests.map((req) => ({
+    ...req,
+    createdAt: req.createdAt.toISOString(),
+    updatedAt: req.updatedAt.toISOString(),
+  }));
+
+  return (
+    <LearnersContent
+      adminUser={adminUser}
+      allUsers={serializedUsers}
+      paymentRequests={serializedRequests}
+    />
+  );
 }

@@ -72,6 +72,20 @@ export async function POST(req: Request) {
       );
     }
 
+    // Limit free users to exactly 1 Study Pod creation
+    if (!user.isPremium) {
+      const existingPodsCount = await prisma.studyPod.count({
+        where: { creatorId: user.id },
+      });
+
+      if (existingPodsCount >= 1) {
+        return NextResponse.json(
+          { error: "Free tier users are limited to creating exactly 1 Study Pod. Upgrade to Premium for unlimited pods." },
+          { status: 403 }
+        );
+      }
+    }
+
     const studyPod = await prisma.studyPod.create({
       data: {
         name: name.trim(),

@@ -11,6 +11,8 @@ interface CreatePodContentProps {
     fullName: string;
     email: string;
     profileImage?: string | null;
+    isPremium: boolean;
+    createdPodsCount: number;
   };
 }
 
@@ -19,6 +21,8 @@ export default function CreatePodContent({ user }: CreatePodContentProps) {
   const [newPodName, setNewPodName] = useState("");
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
+
+  const isLimitReached = !user.isPremium && user.createdPodsCount >= 1;
 
   const handleCreatePod = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,6 +80,21 @@ export default function CreatePodContent({ user }: CreatePodContentProps) {
           </div>
 
           <div className="p-6 space-y-4">
+            {isLimitReached && (
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-250 text-amber-800 text-xs flex flex-col gap-2 font-semibold animate-fadeIn">
+                <div className="flex items-center gap-1.5 text-sm font-bold text-amber-900">
+                  <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
+                  Study Pod Creation Limit Reached
+                </div>
+                <p className="leading-relaxed font-medium">
+                  Free accounts are restricted to creating a maximum of 1 Study Pod. You currently have <strong>{user.createdPodsCount}</strong> pod(s).
+                </p>
+                <p className="text-[10px] text-amber-600 font-bold uppercase tracking-wider mt-1">
+                  Contact admin to upgrade to Premium for unlimited pods.
+                </p>
+              </div>
+            )}
+
             {error && (
               <div className="text-xs text-red-655 bg-red-50 border border-red-100 p-3 rounded-xl font-semibold leading-relaxed">
                 {error}
@@ -90,10 +109,11 @@ export default function CreatePodContent({ user }: CreatePodContentProps) {
                 <input
                   type="text"
                   required
+                  disabled={isLimitReached}
                   value={newPodName}
                   onChange={(e) => setNewPodName(e.target.value)}
-                  placeholder="e.g. AI System Design Pod"
-                  className="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition text-slate-800"
+                  placeholder={isLimitReached ? "Creation disabled — Upgrade to Premium" : "e.g. AI System Design Pod"}
+                  className="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition text-slate-800 disabled:bg-slate-50 disabled:text-slate-405 disabled:cursor-not-allowed"
                   maxLength={100}
                 />
               </div>
@@ -108,8 +128,8 @@ export default function CreatePodContent({ user }: CreatePodContentProps) {
                 </button>
                 <button
                   type="submit"
-                  disabled={creating || !newPodName.trim()}
-                  className="bg-slate-950 hover:bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white font-medium px-5 py-2.5 rounded-lg text-xs shadow-xs transition duration-150 cursor-pointer flex items-center gap-1.5"
+                  disabled={creating || isLimitReached || !newPodName.trim()}
+                  className="bg-slate-950 hover:bg-slate-900 disabled:bg-slate-100 disabled:text-slate-400 text-white font-medium px-5 py-2.5 rounded-lg text-xs shadow-xs transition duration-150 cursor-pointer flex items-center gap-1.5 disabled:cursor-not-allowed"
                 >
                   <IconUsersPlus className="w-4.5 h-4.5" />
                   {creating ? "Creating Room..." : "Create Room"}

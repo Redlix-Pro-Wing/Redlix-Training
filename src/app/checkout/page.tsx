@@ -1,11 +1,16 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/db";
-import CreatePodContent from "./CreatePodContent";
+import DashboardLayout from "@/components/DashboardLayout";
+import CheckoutContent from "./CheckoutContent";
+
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
 export const dynamic = "force-dynamic";
 
-export default async function CreateStudyPodPage() {
+export default async function CheckoutPage({ searchParams }: PageProps) {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("session")?.value;
 
@@ -13,14 +18,13 @@ export default async function CreateStudyPodPage() {
     redirect("/login");
   }
 
+  // Fetch verified user details
   const user = await prisma.user.findUnique({
     where: { id: sessionToken },
     select: {
-      id: true,
       fullName: true,
       email: true,
       profileImage: true,
-      selectedRole: true,
       isPremium: true,
     },
   });
@@ -29,9 +33,8 @@ export default async function CreateStudyPodPage() {
     redirect("/login");
   }
 
-  const createdPodsCount = await prisma.studyPod.count({
-    where: { creatorId: user.id },
-  });
+  const { plan } = await searchParams;
+  const planString = typeof plan === "string" ? plan : "monthly";
 
-  return <CreatePodContent user={{ ...user, createdPodsCount }} />;
+  return <CheckoutContent user={user} plan={planString} />;
 }

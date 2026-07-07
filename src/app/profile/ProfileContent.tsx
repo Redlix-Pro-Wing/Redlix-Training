@@ -20,6 +20,7 @@ interface UserProfile {
   linkedinLink: string;
   about: string;
   shareWithNetworking: boolean;
+  isPremium: boolean;
 }
 
 interface ProfileContentProps {
@@ -160,6 +161,12 @@ export default function ProfileContent({ user }: ProfileContentProps) {
                         fill="white"
                       />
                     </svg>
+                    {user.isPremium && (
+                      <span className="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-amber-300 shadow-2xs">
+                        <span className="material-symbols-outlined text-[12px] font-bold">workspace_premium</span>
+                        Premium
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-slate-500">{user.email}</p>
                 </div>

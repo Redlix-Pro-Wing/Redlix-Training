@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Logo Components
 export const Logo = () => (
@@ -31,14 +32,40 @@ interface DashboardLayoutProps {
     fullName: string;
     email: string;
     profileImage?: string | null;
+    isPremium?: boolean;
   };
 }
 
 export default function DashboardLayout({ children, user }: DashboardLayoutProps) {
   const [open, setOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [premium, setPremium] = useState<boolean>(user.isPremium || false);
 
   const isAdmin = user.email.trim().toLowerCase() === "webstrixx@gmail.com";
+
+  useEffect(() => {
+    if (user.isPremium !== undefined) {
+      setPremium(user.isPremium);
+    }
+  }, [user.isPremium]);
+
+  useEffect(() => {
+    if (isAdmin) return;
+    const fetchPremiumStatus = async () => {
+      try {
+        const res = await fetch("/api/profile");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.user) {
+            setPremium(data.user.isPremium);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch premium status:", err);
+      }
+    };
+    fetchPremiumStatus();
+  }, [isAdmin]);
 
   // Sidebar notifications calculation
   useEffect(() => {
@@ -198,7 +225,48 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
             </span>
           ),
         },
+        {
+          label: "Opportunities",
+          href: "/opportunities",
+          icon: (
+            <span className="material-symbols-outlined shrink-0 text-[20px] text-blue-100 group-hover/sidebar:text-white transition-colors duration-150 select-none">
+              work
+            </span>
+          ),
+        },
+        {
+          label: "Events",
+          href: "/events",
+          icon: (
+            <span className="material-symbols-outlined shrink-0 text-[20px] text-blue-100 group-hover/sidebar:text-white transition-colors duration-150 select-none">
+              calendar_month
+            </span>
+          ),
+        },
       ];
+
+  if (!isAdmin && premium) {
+    links.push(
+      {
+        label: "Mentorship",
+        href: "/mentorship",
+        icon: (
+          <span className="material-symbols-outlined shrink-0 text-[20px] text-blue-100 group-hover/sidebar:text-white transition-colors duration-150 select-none">
+            diversity_3
+          </span>
+        ),
+      },
+      {
+        label: "Startup Hub",
+        href: "/startup-hub",
+        icon: (
+          <span className="material-symbols-outlined shrink-0 text-[20px] text-blue-100 group-hover/sidebar:text-white transition-colors duration-150 select-none">
+            rocket_launch
+          </span>
+        ),
+      }
+    );
+  }
 
   // Profile link appended at the very end to ensure it is always last
   links.push({
@@ -231,7 +299,42 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
               ))}
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-4">
+            {open && !isAdmin && !premium && (
+              <div 
+                className="mx-2 p-4 rounded-2xl text-slate-950 shadow-sm border border-amber-400/80 flex flex-col gap-3 relative overflow-hidden animate-fadeIn"
+                style={{ backgroundImage: "url('/gold-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+              >
+                {/* Micro-sparkle glow */}
+                <div className="absolute -right-6 -top-6 w-20 h-20 bg-white/30 rounded-full blur-xl pointer-events-none" />
+                <div className="flex items-center gap-1.5 font-sans font-black text-xs uppercase tracking-wider">
+                  <span className="material-symbols-outlined text-[16px] text-slate-950 font-bold">workspace_premium</span>
+                  <span>Go Premium</span>
+                </div>
+                <div className="flex flex-col gap-1.5 text-[10px] leading-snug font-semibold text-slate-900">
+                  <p className="font-extrabold mb-1">Upgrade to unlock details:</p>
+                  <div className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[12px] text-slate-950 font-bold">check_circle</span>
+                    <span>1-on-1 Mentorship Booking</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[12px] text-slate-950 font-bold">check_circle</span>
+                    <span>Startup Hub Showcase</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[12px] text-slate-950 font-bold">check_circle</span>
+                    <span>Unlimited Study Pod Rooms</span>
+                  </div>
+                </div>
+                <Link
+                  href="/plans"
+                  className="w-full bg-slate-950 hover:bg-slate-900 text-white rounded-xl py-2 text-xs font-bold transition shadow-md hover:shadow-lg cursor-pointer text-center select-none mt-1 block font-sans"
+                >
+                  Upgrade Now
+                </Link>
+              </div>
+            )}
+            
             <SidebarLink
               link={{
                 label: user.fullName,
